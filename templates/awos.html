@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% comment %} <meta http-equiv="refresh" content="16"> {% endcomment %}
+        <title>Jersey Airport Departures</title>
+        <link rel="stylesheet" href="static/awos.css">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet"> 
+    </head>
+
+    <body>
+        <div class="content">
+            <div class="awos-page">
+
+            <header>
+                <div>
+                    <h2>AWOS DATA</h2>
+                    <h3>Last refreshed: {{ DATESTAMP }}</h3>
+                </div>
+            </header>
+
+            <table class="awos" id="awos-table">
+                <thead>
+                    <th></th>
+                    <th>Runway West</th>
+                    <th>Runway East</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th class="row-header">Temperature­­:</th>
+                        <th>{{ TA_A }}°C</th>
+                        <th>{{ TA_C }}°C</th>
+                    </tr>
+                    <tr>
+                        <th class="row-header">Humidity:</th>
+                        <th>{{ RH_A }}%</th>
+                        <th>{{ RH_C }}%</th>
+                    </tr>
+                    <tr>
+                        <th class="row-header">Wind (Direction / Speed):</th>
+                        <th>{{ D_A }}° / {{ S_A }} knots</th>
+                        <th>{{ D_C }}° / {{ S_C }} knots</th>
+                    </tr>            
+                    <tr>
+                        <th class="row-header">Airfield Air Pressure:</th>
+                        <th>{{ MET_QFE_A }} hPa</th>
+                        <th>{{ MET_QFE_C }} hPa</th>
+                    </tr>
+                    <tr>
+                        <th class="row-header">Current Weather:</th>
+                        <th>{{ WX_A }}</th>
+                        <th>{{ WX_C }}</th>
+                    </tr>
+                    <tr>
+                        <th class="row-header">Visibility:</th>
+                        <th>{{ MORKM_A }} km</th>
+                        <th>{{ MORKM_C }} km</th>
+                    </tr>
+                    <tr>
+                        <th class="row-header">Cloud height 1:</th>
+                        <th>{{ CLD1_A }} ft</th>
+                        <th>{{ CLD1_C }} ft</th>
+                    </tr>
+                    <tr>
+                        <th class="row-header">Cloud height 2:</th>
+                        <th>{{ CLD2_A }} ft</th>
+                        <th>{{ CLD2_C }} ft</th>
+                    </tr>
+                    <tr>
+                        <th class="row-header">Cloud height 3:</th>
+                        <th>{{ CLD3_A }} ft</th>
+                        <th>{{ CLD3_C }} ft</th>
+                    </tr>
+                    <tr>
+                        <th class="row-header">Runway in Use:</th>
+                        <th>{{ RIU }}</th>
+                    </tr> 
+                </tbody>
+            </div>
+        </div>
+
+        <footer>
+            <h3 id="disclaimer">This data is provided for general information purposes only.<br>Ports of Jersey does not take responsibility for any forward uses of this data.</h3>
+        </footer>

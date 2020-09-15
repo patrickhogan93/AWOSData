@@ -1,0 +1,127 @@
+/* css reset */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-size: 62.5%;
+  font-family: 'Calibri', 'Open Sans', 'sans-serif', 'Trebuchet MS';
+}
+
+body {
+  background-color: black;
+  font-size: 1.6rem;
+}
+
+ul, li {
+  list-style: none;
+  font-family: 'Barlow', sans-serif;
+}
+
+h1   {
+  font-size: 3.5em;
+}
+
+/* page and header style */
+
+.content {
+  height: 100%;
+  min-height: 100vh;
+  overflow: auto;
+  font-size: calc(1rem + 0.5vw + 0.25vh);
+}
+
+.awos-page {
+    color: yellow;
+}
+
+.awos-page header {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    height: 10vh;
+    min-height: 75px;
+    margin: 0 auto;
+    padding: 0.7em;
+}
+
+.awos-page header div {
+    width: 100%;
+}
+
+.awos-page header h3 {
+    color: white;
+    text-align: right;
+}
+
+#awos-table {
+    width: 100%;
+    white-space: nowrap;
+    border-collapse: collapse;
+    text-align: left;
+    table-layout: fixed;
+    padding: 0.5em;
+    margin-bottom: 3em;
+  }
+
+#awos-table th {
+    text-align: left;
+}
+
+#awos-table .row-header {
+    text-align: right;
+}
+
+footer {
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    text-align: center;
+    padding: 1em;
+  }
+
+/* Media Queries */
+
+/* small tablet portrait */
+@media only screen and (min-width: 767px) {
+    table { 
+      font-size: 1.1em;
+    }
+  }
+  
+  /* large tablet portrait */
+  @media only screen and (min-width: 1020px) {
+    table { 
+      font-size: 1.2em;
+    }
+  }
+  
+  /* small tablet landscape */
+  @media only screen and (min-width: 1020px) and (orientation: landscape) {
+    .awos-page header {
+      height: 15vh;
+    }
+    
+    .content {
+      font-size: calc(2rem + 0.25vw);
+    }
+  
+    table { 
+      font-size: 1.1em;
+    }
+  
+  }
+  
+  /* large tablet landscape and desktop */
+  @media only screen and (min-width: 1366px) and (orientation: landscape) {
+    table th,
+    table td{
+      padding: 0.5em 0.75em
+    }  
+    
+  }

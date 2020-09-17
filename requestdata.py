@@ -28,6 +28,7 @@ class awos_generator():
             for column in range(0,len(self.columns)):
                 self.data[self.columns[column]] = row[column]
 
+    # Format last server refresh time into the format dd/mm/yy HH:MM:SS
     def format_time(self):
         self.data['DATESTAMP'] = self.data['DATESTAMP'].strftime('%d/%m/%Y %H:%M:%S')
 
@@ -35,10 +36,12 @@ class awos_generator():
         try: self.data[sensor] = weatherlookup[sensor]
         except KeyError: self.data[sensor] = "No significant weather observed"
 
+    # Replaces cloud value with a '-' when there are no clouds
     def zero_cloudheight(self, cloudfields):      
         for cloudfield in cloudfields:
             if self.data[cloudfield] == '0': self.data[cloudfield] = '-'
     
+    # Replaces boolean Runway 'RIU' value with the appropriate runway lable '08' or '26'
     def set_runway(self):
         if self.data['RIU'] == '1': self.data['RIU'] = '08'
         elif self.data['RIU'] == '2': self.data['RIU'] = '26'

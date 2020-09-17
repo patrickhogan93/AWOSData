@@ -35,6 +35,10 @@ class awos_generator():
         try: self.data[sensor] = weatherlookup[sensor]
         except KeyError: self.data[sensor] = "No significant weather observed"
 
+    def zero_cloudheight(self, cloudfields):      
+        for cloudfield in cloudfields:
+            if self.data[cloudfield] == '0': self.data[cloudfield] = '-'
+    
     def set_runway(self):
         if self.data['RIU'] == '1': self.data['RIU'] = '08'
         elif self.data['RIU'] == '2': self.data['RIU'] = '26'
@@ -115,6 +119,7 @@ awos.parse_data()
 awos.format_time()
 awos.lookupweather('WX_A')
 awos.lookupweather('WX_C')
+awos.zero_cloudheight(['CLD1_A', 'CLD1_C', 'CLD2_A', 'CLD2_C', 'CLD3_A', 'CLD3_C'])
 awos.set_runway()
 awos.render()
 awos.write()

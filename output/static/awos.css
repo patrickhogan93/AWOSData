@@ -60,10 +60,10 @@ h1   {
 
 #awos-table {
     width: 100%;
-    white-space: nowrap;
     border-collapse: collapse;
     text-align: left;
     table-layout: fixed;
+    word-wrap: break-word;
     padding: 0.5em;
     margin-bottom: 3em;
   }
@@ -76,11 +76,15 @@ h1   {
     text-align: right;
 }
 
+table th, table td{
+  padding: 0.5em 0.75em;
+}  
+
 footer {
-    position: fixed;
-    left: 0px;
+    position: static;
+    /* left: 0px;
     right: 0px;
-    bottom: 0px;
+    bottom: 0px; */
     text-align: center;
     padding: 1em;
   }

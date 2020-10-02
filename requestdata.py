@@ -89,9 +89,6 @@ conn = pyodbc.connect('DRIVER={SQL Server};'
                      'UID=awosdata;'
                      'PWD=Airport1937!;')
 
-# SQL Query to selct the most recent dataset
-# sql_file = open('sql.txt','r')
-# print(sql)
 
 template = 'awos.html'
 output = 'output/awos.html'

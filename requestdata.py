@@ -47,13 +47,19 @@ class awos_generator():
     # Lookup the provided weather code and convert it into a test description
     def lookupweather(self, sensor):
         logging.info('Looking up weather value for sensor %s', sensor)
-        self.data[sensor] = self.data[sensor].strip()
+        logging.debug("initial value is '%s'", self.data[sensor])
         try: 
-            weather_out = weatherlookup[self.data[sensor]]
-            logging.debug("Value in '%s', Lookup value out '%s'", self.data[sensor], weather_out)
-        except KeyError:
-            weather_out = '-'
-            logging.warning("Input value '%s' did not match a value in weatherlookup.json", self.data[sensor])
+            self.data[sensor] = self.data[sensor].strip()
+            try: 
+                weather_out = weatherlookup[self.data[sensor]]
+                logging.debug("Value in '%s', Lookup value out '%s'", self.data[sensor], weather_out)
+            except KeyError:
+                weather_out = '-'
+                logging.warning("Input value '%s' did not match a value in weatherlookup.json", self.data[sensor])
+                
+        except AttributeError: 
+            weather_out = 'No significant weather observed'
+            logging.warning('Input value is NoneType')
 
         self.data[sensor] = weather_out
         logging.debug('DONE!')

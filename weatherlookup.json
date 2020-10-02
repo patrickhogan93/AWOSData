@@ -1,5 +1,5 @@
 {
-	"None" : "No significant weather observed",
+	"NONE" : "No significant weather observed",
 	"NP" : "No significant weather observed",
 	"HZ" : "Haze, visibility greater than or equal to 1KM",
 	"FU" : "smoke, visibility greater than or equal to 1KM",

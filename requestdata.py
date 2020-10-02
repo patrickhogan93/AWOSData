@@ -1,11 +1,17 @@
 import pyodbc
 import json
 import datetime
+import logging
+
 from templates import get_template
 
 
+logging.basicConfig(format='[%(asctime)s.%(msecs)03d] - %(levelname)s: %(message)s', datefmt='%d/%m/%Y %H:%M:%S', level=logging.DEBUG)
+
 def load_lookups(lookup_file):
+    logging.info('Reading file %s', lookup_file)
     with open(lookup_file,'r') as read_file:
+        logging.debug('DONE!')
         return json.load(read_file)
 
 class awos_generator():
@@ -16,10 +22,12 @@ class awos_generator():
         self.output = output
 
     def execute_query(self):
+        logging.info('Querying SQL Database')
         self.cursor = self.conn.cursor()
         self.cursor.execute(self.sql)
         
         self.columns = [column[0] for column in self.cursor.description]
+        logging.debug('DONE!')
 
     def parse_data(self):
         self.data = {}
@@ -32,12 +40,22 @@ class awos_generator():
     def format_time(self):
         self.data['DATESTAMP'] = self.data['DATESTAMP'].strftime('%d/%m/%Y %H:%M:%S')
 
+    # Lookup the provided weather code and convert it into a test description
     def lookupweather(self, sensor):
-        try: self.data[sensor] = weatherlookup[sensor]
-        except KeyError: self.data[sensor] = "No significant weather observed"
+        logging.info('Looking up weather value for sensor %s', sensor)
+        self.data[sensor] = self.data[sensor].strip()
+        try: 
+            weather_out = weatherlookup[self.data[sensor]]
+            logging.debug("Value in '%s', Lookup value out '%s'", self.data[sensor], weather_out)
+        except KeyError:
+            weather_out = '-'
+            logging.warning("Input value '%s' did not match a value in weatherlookup.json", self.data[sensor])
+
+        self.data[sensor] = weather_out
+        logging.debug('DONE!')
 
     # Replaces cloud value with a '-' when there are no clouds
-    def zero_cloudheight(self, cloudfields):      
+    def zero_cloudheight(self, cloudfields):
         for cloudfield in cloudfields:
             if self.data[cloudfield] == '0': self.data[cloudfield] = '-'
     
@@ -45,15 +63,19 @@ class awos_generator():
     def set_runway(self):
         if self.data['RIU'] == '1': self.data['RIU'] = '08'
         elif self.data['RIU'] == '2': self.data['RIU'] = '26'
-        else: print("ERROR! - Invalid ruway value")
+        else: logging.error('Invalid runway value "%s", expected "1" or "2"', self.data['RIU'])
 
     def render(self):
+        logging.info('Rendering output from template')
         self.rendered = get_template(self.template).render(self.data)
+        logging.debug('DONE!')
 
     def write(self):
+        logging.info('Writing output to file %s', self.output)
         file = open(self.output, "w")
         file.write(self.rendered)
         file.close
+        logging.debug('DONE!')
 
 
 # SQL Server connection config

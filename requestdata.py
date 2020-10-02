@@ -8,6 +8,10 @@ from templates import get_template
 
 logging.basicConfig(format='[%(asctime)s.%(msecs)03d] - %(levelname)s: %(message)s', datefmt='%d/%m/%Y %H:%M:%S', level=logging.DEBUG)
 
+def load_sqlquery(sql_file):
+    logging.info('Reading file %s', sql_file)
+    return open(sql_file,'r').read()
+
 def load_lookups(lookup_file):
     logging.info('Reading file %s', lookup_file)
     with open(lookup_file,'r') as read_file:
@@ -86,55 +90,13 @@ conn = pyodbc.connect('DRIVER={SQL Server};'
                      'PWD=Airport1937!;')
 
 # SQL Query to selct the most recent dataset
-sql = """/****** Script for SelectMostRecent command from SSMS  ******/
-SELECT TOP (1) [ID]
-      ,[DATESTAMP]
-      ,[DP_1_A]
-      ,[DP_1_C]
-      ,[RH_A]
-      ,[RH_C]
-      ,[TA_A]
-      ,[TA_C]
-      ,[BGL_A]
-      ,[BGL_C]
-      ,[MORKM_A]
-      ,[MORKM_B]
-      ,[MORKM_C]
-      ,[REWX_A]
-      ,[REWX_C]
-      ,[WX_A]
-      ,[WX_C]
-      ,[D_A]
-      ,[D_C]
-      ,[S_A]
-      ,[S_C]
-      ,[MET_QFE_A]
-      ,[MET_QFE_C]
-      ,[ANGLE_FLASH1_B]
-      ,[ANGLE_FLASH2_B]
-      ,[ANGLE_FLASH3_B]
-      ,[ANGLE_FLASH4_B]
-      ,[DIST_FLASH1_B]
-      ,[DIST_FLASH2_B]
-      ,[DIST_FLASH3_B]
-      ,[DIST_FLASH4_B]
-      ,[NUM_FLASHES_B]
-      ,[TS_B]
-      ,[CLD1_A]
-      ,[CLD1_C]
-      ,[CLD2_A]
-      ,[CLD2_C]
-      ,[CLD3_A]
-      ,[CLD3_C]
-      ,[VER_VIS_A]
-      ,[VER_VIS_C]
-      ,[RIU]
-  FROM [Airport2020_SUPP].[dbo].[JER_AWOS]
-  order by datestamp desc  """
+# sql_file = open('sql.txt','r')
+# print(sql)
 
 template = 'awos.html'
 output = 'output/awos.html'
 
+sql = load_sqlquery('sql.txt')
 weatherlookup = load_lookups('weatherlookup.json')
 
 awos = awos_generator(conn, sql, template, output)
